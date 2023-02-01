@@ -1,0 +1,129 @@
+#include <iostream>
+#include <cstring>
+#pragma warning(disable:4996)
+using namespace std;
+class Human
+{
+private:
+ char* name;
+ int age;
+ int height;
+ float weight;
+public:
+ Human()
+ {
+ name = nullptr;
+ age = 0;
+ height = 0;
+ weight = 0;
+ 
+ }
+ Human(const Human& obj)
+ {
+ name = new char[strlen(obj.name) + 1];
+ strcpy(name, obj.name);
+ age = obj.age;
+ height = obj.height;
+ weight = obj.weight;
+ 
+ }
+ void Set(char* name, int age, int height, float weight)
+ {
+ this->name = new char[strlen(name) + 1];
+ strcpy(this->name, name);
+ this->age = age;
+ this->height = height;
+ this->weight = weight;
+
+ }
+ void Show()
+ {
+ cout << name << "\t" << age << " " << height << " " << weight <<  "\n";
+ }
+ ~Human()
+ {
+ delete[] name;
+ }
+};
+void Show(Human obj)
+{
+ obj.Show();
+}Human NEW()
+{
+ char name[100];
+ int age;
+ int height;
+ float weight;
+ cin.ignore();
+ cout << "Enter name\n"; cin.getline(name, 100);
+ cout << "Enter age\n"; cin >> age;
+ cout << "Enter height\n"; cin >> height;
+ cout << "Your weight: "; cin >> weight;
+
+ Human temp;
+ temp.Set(name, age, height, weight);
+ return temp;
+}
+void Add(Human* mass, int& size, int age)
+{
+ Human* temp = new Human[size + 1];
+ char* name;
+ int height;
+ float weight;
+ for(int i = 0; i<size; i++)
+ temp[i]=mass[i];
+ delete[] mass;
+ mass=temp;
+ mass[size].Set(name, age, height, weight);
+ size+=1;
+}
+void Show(Human* mass, int size)
+{
+ for(int i =0; i<size; i++)
+ mass[i].Show();
+}
+int main()
+{
+ Human* mass = nullptr;
+ int size = 0;
+ int choice;
+ bool job =1;
+ int age = 1;
+ while(job)
+ {
+ cout<<"Hi";
+ cin>>choice;
+ switch(choice)
+ {
+ case 1:
+ Add(mass,size,age);
+ age+=1;
+ break;
+ case 2:
+ Show(mass,size);
+ break;
+ case 0: job = 0;
+ break;
+ default:cout<<"Wrong";
+ break;
+ }
+ }
+ char name[100];
+ int height;
+ float weight;
+ 
+ Human first;
+ cout << "Enter name\n";
+ cin.getline(name, 100);
+ cout << "Enter age\n"; cin >> age;
+ cout << "Enter height\n"; cin >> height;
+ cout << "Your weight: "; cin >> weight;
+ first.Set(name, age, height, weight);
+ first.Show();
+ Show(first);
+ Human second(first);
+ second.Show();
+ Human three = NEW();
+ three.Show();
+ delete[] mass;
+}
